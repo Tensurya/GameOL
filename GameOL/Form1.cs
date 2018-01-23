@@ -12,8 +12,10 @@ namespace GameOL
 {
     public partial class Form1 : Form
     {
+        int gridHeight = 20;
+        int gridWidth = 20;
         // The universe array
-        bool[,] universe = new bool[5, 5];
+        bool[,] universe;
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -24,20 +26,76 @@ namespace GameOL
 
         // Generation count
         int generations = 0;
+        //bool isRunning = false;
 
         public Form1()
         {
+            universe = new bool[gridWidth, gridHeight];
+
             InitializeComponent();
+
+
+            universe[1, 1] = true;
+            timer.Interval = 40;
+            timer.Enabled = false;
+            timer.Tick += Timer_Tick;
         }
 
-        private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
+        private void Timer_Tick(object Sender, EventArgs e)
+        {
+            NextGeneration();
+        }
+
+        private void NextGeneration()
+        {
+            bool[,] scratchpad = new bool[gridWidth, gridHeight];
+
+            for (int y = 0; y < gridHeight; y++)
+            {
+                for (int x = 0; x < gridWidth; x++)
+                {
+                    int neighbor = GetNeighbourCount(x, y);
+                    if (universe[x, y])
+                    {
+                        if (neighbor < 2 || neighbor > 3)
+                        {
+                            scratchpad[x, y] = false;
+                        }
+                        else if (neighbor == 2 || neighbor == 3)
+                        {
+                            scratchpad[x, y] = true;
+                        }
+                    }
+                    else if (neighbor == 3)
+                    {
+                        scratchpad[x, y] = true;
+                    }
+                }
+            }
+
+            generations++;
+            toolStripStatusLabel1Gener.Text = "Generations = " + generations.ToString();
+
+            universe = scratchpad;
+            graphicsPanel1.Invalidate();
+        }
+
+        private void graphicsPanel2_Paint(object sender, PaintEventArgs e)
         {
             // The width and height of each cell in pixels
-            int cellWidth = 100;
-            int cellHeight = 100;
+            float cellWidth = graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0);
+            float cellHeight = graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1);
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
+
+            Brush cellBrush = new SolidBrush(cellColor);
+
+            Font font = new Font("Arial", 8f);
+
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
 
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -46,21 +104,111 @@ namespace GameOL
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // A rectangle to represent each cell in pixels
-                    Rectangle cellRect = Rectangle.Empty;
+                    RectangleF cellRect = RectangleF.Empty;
                     cellRect.X = x * cellWidth;
                     cellRect.Y = y * cellHeight;
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
 
                     // Fill the cell with a brush
-
+                    if (universe[x, y] == true)
+                    {
+                        e.Graphics.FillRectangle(cellBrush, cellRect);
+                    }
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+
+                    e.Graphics.DrawString(GetNeighbourCount(x, y).ToString(), font, Brushes.Black, cellRect, stringFormat);
                 }
             }
 
             // Cleaning up pens and brushes
             gridPen.Dispose();
+            cellBrush.Dispose();
+        }
+
+        private void graphicsPanel2_Click(object sender, MouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Left)
+            {
+                float cellWidth = graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0);
+                float cellHeight = graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1);
+
+
+                if (cellWidth == 0 || cellHeight == 0)
+                {
+                    return;
+                }
+                float x = e.X / cellWidth;
+                float y = e.Y / cellHeight;
+
+                //Stops game from bugging out when clicked on the extreme right or bottom. 
+                if (x >= gridWidth || y >= gridHeight)
+                {
+                    return;
+                }
+                universe[(int)x, (int)y] = !universe[(int)x, (int)y];
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    universe[x, y] = false;
+                }
+            }
+            generations = 0;
+
+            graphicsPanel1.Invalidate();
+            toolStripStatusLabel1Gener.Text = "Generations = " + generations.ToString();
+        }
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = true;
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+        }
+
+        private void nextButton_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+            NextGeneration();
+        }
+
+
+        private int GetNeighbourCount(int x, int y)
+        {
+
+            return IsAlive(x - 1, y - 1) + IsAlive(x, y - 1) + IsAlive(x + 1, y - 1)
+                 + IsAlive(x - 1, y) + IsAlive(x + 1, y)
+                 + IsAlive(x - 1, y + 1) + IsAlive(x, y + 1) + IsAlive(x + 1, y + 1);
+        }
+
+        private int IsAlive(int x, int y)
+        {
+            if (InBounds(x, y))
+            {
+                if (universe[x, y])
+                    return 1;
+                else
+                    return 0;
+            }
+            else
+                return 0;
+        }
+
+        private bool InBounds(int x, int y)
+        {
+            return x > -1 && y > -1 && x < gridWidth && y < gridHeight;
         }
     }
 }
