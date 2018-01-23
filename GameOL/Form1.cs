@@ -50,7 +50,7 @@ namespace GameOL
 
         private void Timer_Tick(object Sender, EventArgs e)
         {
-            if(gen_state == 0)
+            if (gen_state == 0)
             {
                 NextGeneration();
             }
@@ -93,6 +93,42 @@ namespace GameOL
             graphicsPanel1.Invalidate();
         }
         #endregion Finite Generator
+
+        #region Toroid Generator
+        private void NextWrapAroundGeneration()
+        {
+            bool[,] scratchpad = new bool[gridWidth, gridHeight];
+
+            for (int y = 0; y < gridHeight; y++)
+            {
+                for (int x = 0; x < gridWidth; x++)
+                {
+                    int neighbor = GetWNeighbourCount(x, y);
+                    if (universe[x, y])
+                    {
+                        if (neighbor < 2 || neighbor > 3)
+                        {
+                            scratchpad[x, y] = false;
+                        }
+                        else if (neighbor == 2 || neighbor == 3)
+                        {
+                            scratchpad[x, y] = true;
+                        }
+                    }
+                    else if (neighbor == 3)
+                    {
+                        scratchpad[x, y] = true;
+                    }
+                }
+            }
+
+            generations++;
+            toolStripStatusLabel1Gener.Text = "Generations = " + generations.ToString();
+
+            universe = scratchpad;
+            graphicsPanel1.Invalidate();
+        }
+        #endregion Toroid Generator
 
 
         #endregion Generations
@@ -178,42 +214,132 @@ namespace GameOL
         #region Buttons
 
         #region ToolStr_Btns
+        //Start
+
         private void startButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
         }
-
+        //Stop
         private void stopButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
         }
-
+        //Next
         private void nextButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
             NextGeneration();
         }
+        //New
+        private void newToolStripButton_Click(object sender, EventArgs e)
+        {
+
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    universe[x, y] = false;
+                }
+            }
+            generations = 0;
+
+            graphicsPanel1.Invalidate();
+            toolStripStatusLabel1Gener.Text = "Generations = " + generations.ToString();
+        }
         #endregion ToolStr_Btns
 
         #region ContextMen_Btns
+        //ContextStart
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
         }
-
+        //ContextStop
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
         }
-
+        //ContextNext
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
             NextGeneration();
         }
+        //ContextColor
+        private void colorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = cellColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellColor = dlg.Color;
+            }
+        }
+
         #endregion ContextMen_Btns
 
         #region MenuStr_Btns
+
+        //BackGround Color
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = graphicsPanel1.BackColor;
+
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                graphicsPanel1.BackColor = dlg.Color;
+            }
+        }
+
+        //Cell Color
+        private void colorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = cellColor;
+
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellColor = dlg.Color;
+            }
+        }
+
+        //Grid Color
+        private void generationsSpeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = gridColor;
+
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridColor = dlg.Color;
+            }
+        }
+        
+        //Generation Speed
+        private void generationSpeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModalDialog dlg = new ModalDialog();
+
+            dlg.Generations = timer.Interval;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                timer.Interval = dlg.Generations;
+            }
+
+        }
+
+        //MenuNew
         private void newToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -228,19 +354,34 @@ namespace GameOL
             graphicsPanel1.Invalidate();
             toolStripStatusLabel1Gener.Text = "Generations = " + generations.ToString();
         }
+        
+        //MenuOptions(Code Deleted to build)
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModalDialog dlg = new ModalDialog();
+
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+
+            }
+        }
+
         #endregion MenuStr_Btns
 
         #endregion Buttons
 
         #region Functions
+
+        #region Finite Functions
+        //Neighbour Counter(finite)
         private int GetNeighbourCount(int x, int y)
         {
-
             return IsAlive(x - 1, y - 1) + IsAlive(x, y - 1) + IsAlive(x + 1, y - 1)
                  + IsAlive(x - 1, y) + IsAlive(x + 1, y)
                  + IsAlive(x - 1, y + 1) + IsAlive(x, y + 1) + IsAlive(x + 1, y + 1);
         }
-
+        //Cell Alive(finite)
         private int IsAlive(int x, int y)
         {
             if (InBounds(x, y))
@@ -253,25 +394,75 @@ namespace GameOL
             else
                 return 0;
         }
-
+        //Cell InBounds(finite)
         private bool InBounds(int x, int y)
         {
             return x > -1 && y > -1 && x < gridWidth && y < gridHeight;
         }
+        #endregion Finite Functions
+
+        //Not working.
+        #region Wrap Functions
+        //Neighbour Counter(wrap)
+        private int GetWNeighbourCount(int x, int y)
+        {
+            return IsWAlive(x - 1, y - 1) + IsWAlive(x, y - 1) + IsWAlive(x + 1, y - 1)
+                 + IsWAlive(x - 1, y) + IsWAlive(x + 1, y)
+                 + IsWAlive(x - 1, y + 1) + IsWAlive(x, y + 1) + IsWAlive(x + 1, y + 1);
+        }
+        //Cell isAlive(wrap)
+        private int IsWAlive(int x, int y)
+        {
+            if (InBounds(x, y))
+            {
+                if (universe[x, y])
+                    return 1;
+                else
+                    return 0;
+            }
+            else if (OutBounds(x, y))
+            {
+                if (x < -1)
+                {
+                    x = gridWidth - 1;
+                    return 1;
+                }
+                else if (y < -1)
+                {
+                    y = gridHeight - 1;
+                    return 1;
+                }
+                else if (x > gridWidth)
+                {
+                    x = 0;
+                    return 1;
+                }
+                else if (y > gridHeight)
+                {
+                    y = 0;
+                    return 1;
+                }
+            }
+
+            return 0;
+        }
+        //Cell OutBounds(wrap)
+        private bool OutBounds(int x, int y)
+        {
+            return x < -1 && y < -1 && x > gridWidth && y > gridHeight;
+        }
+
+
+
+
+
+
+
+
+
+        #endregion Wrap Functions
 
         #endregion Functions
 
-
-
-
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ModalDialog dlg = new ModalDialog();
-
-            if(DialogResult.OK == dlg.ShowDialog())
-            {
-
-            }
-        }
     }
 }

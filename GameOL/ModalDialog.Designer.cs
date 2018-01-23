@@ -32,25 +32,24 @@
             this.Cancel = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.generator = new System.Windows.Forms.NumericUpDown();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button4 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.grid_btn = new System.Windows.Forms.Button();
+            this.bgm_btn = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.generator)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // Accept
@@ -87,7 +86,7 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.numericUpDown1);
+            this.tabPage1.Controls.Add(this.generator);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -96,15 +95,49 @@
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(122, 26);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(124, 17);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Generation Speed";
+            // 
+            // generator
+            // 
+            this.generator.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.generator.Location = new System.Drawing.Point(17, 22);
+            this.generator.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.generator.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.generator.Name = "generator";
+            this.generator.Size = new System.Drawing.Size(76, 22);
+            this.generator.TabIndex = 0;
+            this.generator.Value = new decimal(new int[] {
+            40,
+            0,
+            0,
+            0});
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.button4);
-            this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.label2);
             this.tabPage2.Controls.Add(this.label1);
-            this.tabPage2.Controls.Add(this.button3);
-            this.tabPage2.Controls.Add(this.button2);
-            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Controls.Add(this.grid_btn);
+            this.tabPage2.Controls.Add(this.bgm_btn);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -121,15 +154,6 @@
             this.button4.TabIndex = 3;
             this.button4.Text = "Reset";
             this.button4.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(124, 134);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(128, 17);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Neighbour Counter";
             // 
             // label2
             // 
@@ -149,32 +173,25 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "Background";
             // 
-            // button3
+            // grid_btn
             // 
-            this.button3.BackColor = System.Drawing.Color.Black;
-            this.button3.Location = new System.Drawing.Point(18, 124);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(58, 36);
-            this.button3.TabIndex = 2;
-            this.button3.UseVisualStyleBackColor = false;
+            this.grid_btn.BackColor = System.Drawing.Color.Black;
+            this.grid_btn.Location = new System.Drawing.Point(18, 70);
+            this.grid_btn.Name = "grid_btn";
+            this.grid_btn.Size = new System.Drawing.Size(58, 36);
+            this.grid_btn.TabIndex = 1;
+            this.grid_btn.UseVisualStyleBackColor = false;
+            this.grid_btn.Click += new System.EventHandler(this.grid_btn_Click);
             // 
-            // button2
+            // bgm_btn
             // 
-            this.button2.BackColor = System.Drawing.Color.Black;
-            this.button2.Location = new System.Drawing.Point(18, 70);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(58, 36);
-            this.button2.TabIndex = 1;
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(18, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(58, 36);
-            this.button1.TabIndex = 0;
-            this.button1.UseVisualStyleBackColor = false;
+            this.bgm_btn.BackColor = System.Drawing.Color.White;
+            this.bgm_btn.Location = new System.Drawing.Point(18, 17);
+            this.bgm_btn.Name = "bgm_btn";
+            this.bgm_btn.Size = new System.Drawing.Size(58, 36);
+            this.bgm_btn.TabIndex = 0;
+            this.bgm_btn.UseVisualStyleBackColor = false;
+            this.bgm_btn.Click += new System.EventHandler(this.bgm_btn_Click);
             // 
             // tabPage3
             // 
@@ -209,41 +226,15 @@
             this.radioButton1.Text = "Finite";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
-            // numericUpDown1
+            // button1
             // 
-            this.numericUpDown1.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Location = new System.Drawing.Point(17, 22);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(76, 22);
-            this.numericUpDown1.TabIndex = 0;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            40,
-            0,
-            0,
-            0});
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(122, 26);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(124, 17);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Generation Speed";
+            this.button1.Location = new System.Drawing.Point(198, 298);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(110, 47);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Apply";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ModalDialog
             // 
@@ -252,6 +243,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
             this.ClientSize = new System.Drawing.Size(520, 370);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.Accept);
@@ -264,11 +256,11 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.generator)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -281,17 +273,16 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button grid_btn;
+        private System.Windows.Forms.Button bgm_btn;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown generator;
+        private System.Windows.Forms.Button button1;
     }
 }
