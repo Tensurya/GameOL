@@ -277,6 +277,7 @@ namespace GameOL
             {
                 cellColor = dlg.Color;
             }
+            
         }
 
         #endregion ContextMen_Btns
@@ -289,12 +290,12 @@ namespace GameOL
             ColorDialog dlg = new ColorDialog();
 
             dlg.Color = graphicsPanel1.BackColor;
-
-
+            
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 graphicsPanel1.BackColor = dlg.Color;
             }
+            graphicsPanel1.Invalidate();
         }
 
         //Cell Color
@@ -303,12 +304,13 @@ namespace GameOL
             ColorDialog dlg = new ColorDialog();
 
             dlg.Color = cellColor;
-
-
+            
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 cellColor = dlg.Color;
             }
+            graphicsPanel1.Invalidate();
+
         }
 
         //Grid Color
@@ -317,14 +319,14 @@ namespace GameOL
             ColorDialog dlg = new ColorDialog();
 
             dlg.Color = gridColor;
-
-
+            
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 gridColor = dlg.Color;
             }
+            graphicsPanel1.Invalidate();
         }
-        
+
         //Generation Speed
         private void generationSpeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
