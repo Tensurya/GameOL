@@ -12,6 +12,7 @@ namespace GameOL
 {
     public partial class Form1 : Form
     {
+        #region Variables
         int gridHeight = 20;
         int gridWidth = 20;
         // The universe array
@@ -27,6 +28,7 @@ namespace GameOL
         // Generation count
         int generations = 0;
         //bool isRunning = false;
+        #endregion Variables
 
         public Form1()
         {
@@ -46,6 +48,7 @@ namespace GameOL
             NextGeneration();
         }
 
+        #region Generations
         private void NextGeneration()
         {
             bool[,] scratchpad = new bool[gridWidth, gridHeight];
@@ -79,8 +82,11 @@ namespace GameOL
             universe = scratchpad;
             graphicsPanel1.Invalidate();
         }
+        #endregion Generations
 
-        private void graphicsPanel2_Paint(object sender, PaintEventArgs e)
+        #region PaintWorld
+
+        private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
             // The width and height of each cell in pixels
             float cellWidth = graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0);
@@ -126,8 +132,10 @@ namespace GameOL
             gridPen.Dispose();
             cellBrush.Dispose();
         }
+        #endregion PaintWorld
 
-        private void graphicsPanel2_Click(object sender, MouseEventArgs e)
+        #region DrawCell
+        private void graphicsPanel1_Click(object sender, MouseEventArgs e)
         {
 
             if (e.Button == MouseButtons.Left)
@@ -152,22 +160,11 @@ namespace GameOL
                 graphicsPanel1.Invalidate();
             }
         }
+        #endregion DrawCell
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    universe[x, y] = false;
-                }
-            }
-            generations = 0;
+        #region Buttons
 
-            graphicsPanel1.Invalidate();
-            toolStripStatusLabel1Gener.Text = "Generations = " + generations.ToString();
-        }
-
+        #region ToolStr_Btns
         private void startButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
@@ -183,8 +180,46 @@ namespace GameOL
             timer.Enabled = false;
             NextGeneration();
         }
+        #endregion ToolStr_Btns
 
+        #region ContextMen_Btns
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = true;
+        }
 
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+        }
+
+        private void nextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+            NextGeneration();
+        }
+        #endregion ContextMen_Btns
+
+        #region MenuStr_Btns
+        private void newToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    universe[x, y] = false;
+                }
+            }
+            generations = 0;
+
+            graphicsPanel1.Invalidate();
+            toolStripStatusLabel1Gener.Text = "Generations = " + generations.ToString();
+        }
+        #endregion MenuStr_Btns
+
+        #endregion Buttons
+
+        #region Functions
         private int GetNeighbourCount(int x, int y)
         {
 
@@ -210,5 +245,8 @@ namespace GameOL
         {
             return x > -1 && y > -1 && x < gridWidth && y < gridHeight;
         }
+        #endregion Functions
+
+
     }
 }
