@@ -13,8 +13,10 @@ namespace GameOL
     public partial class Form1 : Form
     {
         #region Variables
+        //The universe size
         int gridHeight = 20;
         int gridWidth = 20;
+
         // The universe array
         bool[,] universe;
 
@@ -27,7 +29,10 @@ namespace GameOL
 
         // Generation count
         int generations = 0;
-        //bool isRunning = false;
+
+        // Generation state
+        int gen_state = 0;
+
         #endregion Variables
 
         public Form1()
@@ -45,10 +50,15 @@ namespace GameOL
 
         private void Timer_Tick(object Sender, EventArgs e)
         {
-            NextGeneration();
+            if(gen_state == 0)
+            {
+                NextGeneration();
+            }
         }
 
         #region Generations
+
+        #region Finite Generator
         private void NextGeneration()
         {
             bool[,] scratchpad = new bool[gridWidth, gridHeight];
@@ -82,6 +92,9 @@ namespace GameOL
             universe = scratchpad;
             graphicsPanel1.Invalidate();
         }
+        #endregion Finite Generator
+
+
         #endregion Generations
 
         #region PaintWorld
@@ -245,8 +258,20 @@ namespace GameOL
         {
             return x > -1 && y > -1 && x < gridWidth && y < gridHeight;
         }
+
         #endregion Functions
 
 
+
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModalDialog dlg = new ModalDialog();
+
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+
+            }
+        }
     }
 }
