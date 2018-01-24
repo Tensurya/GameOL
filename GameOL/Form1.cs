@@ -277,7 +277,7 @@ namespace GameOL
                 cellColor = dlg.Color;
                 Properties.Settings.Default.cellColor = dlg.Color;
             }
-
+            graphicsPanel1.Invalidate();
         }
 
         #endregion ContextMen_Btns
@@ -364,6 +364,7 @@ namespace GameOL
                 Properties.Settings.Default.gridHeight = dlg.GridHeight;
                 Properties.Settings.Default.gridWidth = dlg.GridWidth;
             }
+            graphicsPanel1.Invalidate();
         }
 
         #endregion MenuStr_Btns
@@ -399,8 +400,7 @@ namespace GameOL
             return x > -1 && y > -1 && x < gridWidth && y < gridHeight;
         }
         #endregion Finite Functions
-
-
+        
         #region Wrap Functions // Not working
         //Neighbour Counter(wrap)
         private int GetWNeighbourCount(int x, int y)
