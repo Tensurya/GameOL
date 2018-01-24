@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace GameOL
 {
@@ -131,7 +132,7 @@ namespace GameOL
             graphicsPanel1.Invalidate();
         }
         #endregion Toroid Generator
-        
+
         #endregion Generations
 
         #region PaintWorld
@@ -312,7 +313,7 @@ namespace GameOL
             ColorDialog dlg = new ColorDialog();
 
             dlg.Color = cellColor;
-            
+
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 cellColor = dlg.Color;
@@ -329,7 +330,7 @@ namespace GameOL
             ColorDialog dlg = new ColorDialog();
 
             dlg.Color = gridColor;
-            
+
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 gridColor = dlg.Color;
@@ -353,7 +354,7 @@ namespace GameOL
             graphicsPanel1.Invalidate();
             toolStripStatusLabel1Gener.Text = "Generations = " + generations.ToString();
         }
-        
+
         //MenuOptions(View Only)
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -363,7 +364,7 @@ namespace GameOL
             dlg.GridHeight = gridHeight;
             dlg.GridWidth = gridWidth;
             dlg.Apply += Dlg_Apply;
-            
+
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
@@ -409,7 +410,7 @@ namespace GameOL
             return x > -1 && y > -1 && x < gridWidth && y < gridHeight;
         }
         #endregion Finite Functions
-        
+
         #region Wrap Functions // Not working
         //Neighbour Counter(wrap)
         private int GetWNeighbourCount(int x, int y)
@@ -469,6 +470,93 @@ namespace GameOL
 
 
         #endregion Wrap Functions
+        
+        #region File
+        //Open
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                int maxWidth = 0;
+                int maxHeight = 0;
+
+                while (!reader.EndOfStream)
+                {
+                    string row = reader.ReadLine();
+
+                    if (reader.Read() == '!')
+                    {
+
+                    }
+                    else
+                    {
+                        maxHeight++;
+                        maxWidth = row.Length;
+                    }
+                }
+
+                bool[,] universe = new bool[maxWidth, maxHeight];
+
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                while (!reader.EndOfStream)
+                {
+                    string row = reader.ReadLine();
+                    if (reader.Read() == '!')
+                    {
+
+                    }
+                    else
+                    {
+                        for (int y = 0; y < maxHeight; y++)
+                        {
+                            for (int x = 0; x < row.Length; x++)
+                            {
+                                if (row[x] == 'O')
+                                    universe[x, y] = true;
+                                else universe[x, y] = false;
+                            }
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+        }
+        //Save
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "All Files*.*|Cells|*.cells";
+            dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamWriter writer = new StreamWriter(dlg.FileName);
+
+                for (int y = 0; y < gridHeight; y++)
+                {
+                    String currentRow = string.Empty;
+                    for (int x = 0; x < gridWidth; x++)
+                    {
+                        if (universe[x, y] == true)
+                        {
+                            currentRow += 'O';
+                        }
+                        else
+                            currentRow += '.';
+                    }
+                    writer.Write(currentRow);
+                }
+                writer.Close();
+            }
+        }
+        #endregion File
 
         //Apply
         private void Dlg_Apply(object sender, ModalDialog.ApplyEventArgs e)
@@ -490,9 +578,8 @@ namespace GameOL
             Properties.Settings.Default.Save();
         }
 
-
         #endregion Functions
-
 
     }
 }
+
