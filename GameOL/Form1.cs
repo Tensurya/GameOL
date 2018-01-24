@@ -478,10 +478,7 @@ namespace GameOL
             this.gridWidth = e.GridWidth;
         }
 
-
-
-        #endregion Functions
-
+        //Saving Settings
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.gridHeight = this.gridHeight;
@@ -493,9 +490,9 @@ namespace GameOL
             Properties.Settings.Default.Save();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            this.Size = Properties.Settings.Default.FormSize;
-        }
+
+        #endregion Functions
+
+
     }
 }
