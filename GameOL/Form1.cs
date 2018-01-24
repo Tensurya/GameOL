@@ -13,6 +13,7 @@ namespace GameOL
     public partial class Form1 : Form
     {
         #region Variables
+
         //The universe size
         int gridHeight = 20;
         int gridWidth = 20;
@@ -94,7 +95,7 @@ namespace GameOL
         }
         #endregion Finite Generator
 
-        #region Toroid Generator
+        #region Toroid Generator // Not Used
         private void NextWrapAroundGeneration()
         {
             bool[,] scratchpad = new bool[gridWidth, gridHeight];
@@ -129,8 +130,7 @@ namespace GameOL
             graphicsPanel1.Invalidate();
         }
         #endregion Toroid Generator
-
-
+        
         #endregion Generations
 
         #region PaintWorld
@@ -215,7 +215,6 @@ namespace GameOL
 
         #region ToolStr_Btns
         //Start
-
         private void startButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
@@ -266,7 +265,7 @@ namespace GameOL
             timer.Enabled = false;
             NextGeneration();
         }
-        //ContextColor
+        //ContextColor - Cell Color
         private void colorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -276,8 +275,9 @@ namespace GameOL
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 cellColor = dlg.Color;
+                Properties.Settings.Default.cellColor = dlg.Color;
             }
-            
+
         }
 
         #endregion ContextMen_Btns
@@ -294,6 +294,7 @@ namespace GameOL
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 graphicsPanel1.BackColor = dlg.Color;
+                Properties.Settings.Default.graphicsPanel1 = dlg.Color;
             }
             graphicsPanel1.Invalidate();
         }
@@ -308,6 +309,8 @@ namespace GameOL
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 cellColor = dlg.Color;
+                Properties.Settings.Default.cellColor = dlg.Color;
+
             }
             graphicsPanel1.Invalidate();
 
@@ -323,22 +326,9 @@ namespace GameOL
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 gridColor = dlg.Color;
+                Properties.Settings.Default.gridColor = dlg.Color;
             }
             graphicsPanel1.Invalidate();
-        }
-
-        //Generation Speed
-        private void generationSpeedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ModalDialog dlg = new ModalDialog();
-
-            dlg.Generations = timer.Interval;
-
-            if (DialogResult.OK == dlg.ShowDialog())
-            {
-                timer.Interval = dlg.Generations;
-            }
-
         }
 
         //MenuNew
@@ -357,15 +347,22 @@ namespace GameOL
             toolStripStatusLabel1Gener.Text = "Generations = " + generations.ToString();
         }
         
-        //MenuOptions(Code Deleted to build)
+        //MenuOptions(View Only)
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModalDialog dlg = new ModalDialog();
 
+            dlg.Generations = timer.Interval;
+            dlg.GridHeight = gridHeight;
+            dlg.GridWidth = gridWidth;
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
-
+                timer.Interval = dlg.Generations;
+                gridHeight = dlg.GridHeight;
+                gridWidth = dlg.GridWidth;
+                Properties.Settings.Default.gridHeight = dlg.GridHeight;
+                Properties.Settings.Default.gridWidth = dlg.GridWidth;
             }
         }
 
@@ -403,8 +400,8 @@ namespace GameOL
         }
         #endregion Finite Functions
 
-        //Not working.
-        #region Wrap Functions
+
+        #region Wrap Functions // Not working
         //Neighbour Counter(wrap)
         private int GetWNeighbourCount(int x, int y)
         {

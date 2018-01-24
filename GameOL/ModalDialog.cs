@@ -14,15 +14,18 @@ namespace GameOL
     {
         public event ApplyEventHandler Apply;
 
-        Color bgm_color;
-        Color grid_color;
+        
 
         public ModalDialog()
         {
             InitializeComponent();
         }
 
-        #region Color Stuff
+        #region Color Stuff  // Not Working, not used.
+
+
+        Color bgm_color;
+        Color grid_color;
         private void bgm_btn_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -62,39 +65,65 @@ namespace GameOL
         }
         #endregion Color Stuff
 
+
+        #region Numeric Settings
         public int Generations
         {
             get
             {
                 return (int)generator.Value;
+
+
             }
             set
             {
                 generator.Value = value;
             }
         }
+        public int GridHeight
+        {
+            get
+            {
+                return (int)g_height.Value;
+            }
+            set
+            {
+                g_height.Value = value;
+            }
+        }
+        public int GridWidth
+        {
+            get
+            { return (int)g_width.Value; }
+            set
+            { g_width.Value = value; }
+        }
+        #endregion Numeric Settings
 
+
+        //Apply
         private void button1_Click(object sender, EventArgs e)
         {
-            Apply?.Invoke(this, new ApplyEventArgs((int)generator.Value));
+            Apply?.Invoke(this, new ApplyEventArgs((int)generator.Value, (int)GridHeight, (int)GridWidth));
         }
-
         //Delegate
         public delegate void ApplyEventHandler(object sender, ApplyEventArgs e);
 
         //Event Arguements
         public class ApplyEventArgs : EventArgs
         {
-
+            public int GridHeight { get; set; }
+            public int GridLength { get; set; }
             public int Generations { get; set; }
 
-            public ApplyEventArgs(int Generations)
+            public ApplyEventArgs(int Generations, int GridHeight, int GridLength)
             {
                 this.Generations = Generations;
-                
+                this.GridHeight = GridHeight;
+                this.GridLength = GridLength;
             }
         }
 
-      
+
     }
 }
