@@ -44,7 +44,7 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonApply = new System.Windows.Forms.Button();
             this.g_height = new System.Windows.Forms.NumericUpDown();
             this.g_width = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -251,16 +251,16 @@
             this.radioButton1.Text = "Finite";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // buttonApply
             // 
-            this.button1.Location = new System.Drawing.Point(148, 242);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(82, 38);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Apply";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonApply.Location = new System.Drawing.Point(148, 242);
+            this.buttonApply.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.Size = new System.Drawing.Size(82, 38);
+            this.buttonApply.TabIndex = 3;
+            this.buttonApply.Text = "Apply";
+            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
             // 
             // g_height
             // 
@@ -326,7 +326,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
             this.ClientSize = new System.Drawing.Size(390, 301);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.Accept);
@@ -369,7 +369,7 @@
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown generator;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonApply;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown g_width;

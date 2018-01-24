@@ -24,6 +24,7 @@ namespace GameOL
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
+        Color BackGroundColor = Color.White;
 
         // The Timer class
         Timer timer = new Timer();
@@ -146,7 +147,7 @@ namespace GameOL
 
             Brush cellBrush = new SolidBrush(cellColor);
 
-            Font font = new Font("Arial", 8f);
+            Font font = new Font("Arial", 7f);
 
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
@@ -181,9 +182,11 @@ namespace GameOL
             gridPen.Dispose();
             cellBrush.Dispose();
         }
+
         #endregion PaintWorld
 
         #region DrawCell
+
         private void graphicsPanel1_Click(object sender, MouseEventArgs e)
         {
 
@@ -209,6 +212,7 @@ namespace GameOL
                 graphicsPanel1.Invalidate();
             }
         }
+
         #endregion DrawCell
 
         #region Buttons
@@ -289,12 +293,15 @@ namespace GameOL
         {
             ColorDialog dlg = new ColorDialog();
 
-            dlg.Color = graphicsPanel1.BackColor;
-            
+            dlg.Color = BackGroundColor;
+
+
             if (DialogResult.OK == dlg.ShowDialog())
             {
-                graphicsPanel1.BackColor = dlg.Color;
-                Properties.Settings.Default.graphicsPanel1 = dlg.Color;
+                BackGroundColor = dlg.Color;
+                graphicsPanel1.BackColor = BackGroundColor;
+
+                Properties.Settings.Default.BackGroundColor = dlg.Color;
             }
             graphicsPanel1.Invalidate();
         }
@@ -355,6 +362,8 @@ namespace GameOL
             dlg.Generations = timer.Interval;
             dlg.GridHeight = gridHeight;
             dlg.GridWidth = gridWidth;
+            dlg.Apply += Dlg_Apply;
+            
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
@@ -461,7 +470,32 @@ namespace GameOL
 
         #endregion Wrap Functions
 
+        //Apply
+        private void Dlg_Apply(object sender, ModalDialog.ApplyEventArgs e)
+        {
+            this.timer.Interval = e.Generations;
+            this.gridHeight = e.GridHeight;
+            this.gridWidth = e.GridWidth;
+        }
+
+
+
         #endregion Functions
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.gridHeight = this.gridHeight;
+            Properties.Settings.Default.gridWidth = this.gridWidth;
+            Properties.Settings.Default.BackGroundColor = this.BackGroundColor;
+            Properties.Settings.Default.gridColor = this.gridColor;
+            Properties.Settings.Default.cellColor = this.cellColor;
+
+            Properties.Settings.Default.Save();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.Size = Properties.Settings.Default.FormSize;
+        }
     }
 }

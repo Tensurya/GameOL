@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GameOL.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="graphicsPanel1" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="BackGroundColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="cellColor" Type="System.Drawing.Color" Scope="User">
@@ -16,6 +16,12 @@
     </Setting>
     <Setting Name="gridWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="Location" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">0, 0</Value>
+    </Setting>
+    <Setting Name="FormSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">0, 0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

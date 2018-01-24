@@ -25,12 +25,12 @@ namespace GameOL.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Color graphicsPanel1 {
+        public global::System.Drawing.Color BackGroundColor {
             get {
-                return ((global::System.Drawing.Color)(this["graphicsPanel1"]));
+                return ((global::System.Drawing.Color)(this["BackGroundColor"]));
             }
             set {
-                this["graphicsPanel1"] = value;
+                this["BackGroundColor"] = value;
             }
         }
         
@@ -77,6 +77,30 @@ namespace GameOL.Properties {
             }
             set {
                 this["gridWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point Location {
+            get {
+                return ((global::System.Drawing.Point)(this["Location"]));
+            }
+            set {
+                this["Location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Size FormSize {
+            get {
+                return ((global::System.Drawing.Size)(this["FormSize"]));
+            }
+            set {
+                this["FormSize"] = value;
             }
         }
     }

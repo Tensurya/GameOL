@@ -13,9 +13,7 @@ namespace GameOL
     public partial class ModalDialog : Form
     {
         public event ApplyEventHandler Apply;
-
         
-
         public ModalDialog()
         {
             InitializeComponent();
@@ -94,15 +92,19 @@ namespace GameOL
         public int GridWidth
         {
             get
-            { return (int)g_width.Value; }
+            {
+                return (int)g_width.Value;
+            }
             set
-            { g_width.Value = value; }
+            {
+                g_width.Value = value;
+            }
         }
         #endregion Numeric Settings
 
 
         //Apply
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonApply_Click(object sender, EventArgs e)
         {
             Apply?.Invoke(this, new ApplyEventArgs((int)generator.Value, (int)GridHeight, (int)GridWidth));
         }
@@ -113,17 +115,15 @@ namespace GameOL
         public class ApplyEventArgs : EventArgs
         {
             public int GridHeight { get; set; }
-            public int GridLength { get; set; }
+            public int GridWidth { get; set; }
             public int Generations { get; set; }
 
-            public ApplyEventArgs(int Generations, int GridHeight, int GridLength)
+            public ApplyEventArgs(int Generations, int GridHeight, int GridWidth)
             {
                 this.Generations = Generations;
                 this.GridHeight = GridHeight;
-                this.GridLength = GridLength;
+                this.GridWidth = GridWidth;
             }
         }
-
-
     }
 }
